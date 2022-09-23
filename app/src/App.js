@@ -1,12 +1,8 @@
-import React, {useEffect} from "react";
+import React, {useEffect,useState} from "react";
 import BoardAPI from './api/board';
 import UserAPI from './api/user';
-import Example1 from './containers/Example1';
-import Example2 from './containers/Example2';
-import {
-  Routes,
-  Route
-} from 'react-router-dom';
+import Board from './containers/Board';
+import {Routes, Route} from 'react-router-dom';
 
 
 const App = () => {
@@ -51,17 +47,28 @@ const App = () => {
 
   }
 
-
+  const [columns, updateColumns] = useState();
+  const [users, updateUsers] = useState();
   useEffect(() => {
-    exampleOfMockAPI();
-  }, [])
+    const getColumns = async () => {
+      updateColumns((await BoardAPI.getBoardColumns()).data);
+    }
+    const getUsers = async () => {
+      updateUsers((await UserAPI.getUsers()).data);
+    }
+    getColumns();
+    getUsers();
+  }, []);
 
   return (
     <div className="container">
-      {/*create your own containers and components*/}
       <Routes>
-        <Route path="/" element={<Example1 />}/>
-        <Route path="/example2" element={<Example2 />} />
+        <Route path="/"
+               element={<Board
+                           boardColumns={columns}
+                           users={users}
+                         />}
+        />
       </Routes>
     </div>
   );
