@@ -5,7 +5,7 @@ import {Form} from 'react-bootstrap';
 export default class EditForm extends React.Component {
   render () {
     const task = this.props.task;
-    console.log(task.assigned.indexOf('256de3b2-ca7d-427a-b890-aa3176707df0'));
+
     return (
       <Form>
         <Form.Group className="form-task-name mb-3" controlId="formTaskName">
