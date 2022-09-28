@@ -3,40 +3,27 @@ import '@atlaskit/css-reset';
 import styled from 'styled-components';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Column from '../../components/Column'
+import PopupModal from "../../components/PopupModal";
 
 const Container = styled.div`
   display: flex;
 `;
 
-class Board extends React.Component{
+export default class Board extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      users: {},
-      usersUpdated: false,
       tasks: {},
       columns: {},
       columnOrder: [],
       boardUpdated: false,
+      modalIsOpen: false,
+      taskToEdit: '',
     };
   }
 
   componentDidUpdate = () => {
     //  prevents infinite calls
-    if(!this.state.usersUpdated) {
-      //  upload state.users from props.users {key=user.id => value=user.name }
-      let users = {};
-
-      for (const user of this.props.users) {
-        users[user.id] = user.name;
-      }
-
-      this.setState(() => ({
-        users: users,
-        usersUpdated: true,
-      }));
-    }
-
     if(!this.state.boardUpdated) {
       //  upload state.users from props.users {key=user.id => value=user.name }
       let tasks = {};
@@ -139,6 +126,21 @@ class Board extends React.Component{
 
   }
 
+  openModal = (task) => {
+
+    this.setState({
+      modalIsOpen: true,
+      taskToEdit: task });
+
+  };
+
+  closeModal = () => this.setState({ modalIsOpen: false, editingParam: '' });
+
+  handleSave = (e,name) => {
+    console.log('Save: ' + name);
+    this.setState({ modalIsOpen: false, editingParam: '' });
+  };
+
   render () {
 
     if (typeof this.props.boardColumns === 'undefined' || typeof this.props.users === 'undefined')
@@ -146,6 +148,15 @@ class Board extends React.Component{
 
     return (
       <>
+        { this.state.modalIsOpen ?
+          <PopupModal
+            handleClose={() => this.closeModal()}
+            handleSave={(e,n) => this.handleSave(e,n)}
+            task={this.state.taskToEdit}
+            allUsers={this.state.users}
+            users={this.props.users}
+            /> : null }
+
         <div className="main-board">
           <DragDropContext
             onDragEnd = {this.onDragEnd}
@@ -155,7 +166,13 @@ class Board extends React.Component{
                 const column = this.state.columns[columnId];
                 const tasks = column.taskIds.map(taskId =>this.state.tasks[taskId]);
 
-                return <Column key={column.id} column={column} tasks={tasks} allUsers={this.state.users} />;
+                return <Column
+                          key={column.id}
+                          column={column}
+                          tasks={tasks}
+                          users={this.props.users}
+                          openEditModal={(param) => this.openModal(param)}
+                />;
               })}
             </Container>
           </DragDropContext>
@@ -164,5 +181,3 @@ class Board extends React.Component{
     );
   }
 }
-
-export default Board;

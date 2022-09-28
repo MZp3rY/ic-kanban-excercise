@@ -6,6 +6,7 @@ import { Draggable } from "react-beautiful-dnd";
 
 const Container = styled.div`
   box-shadow: ${props => (props.isDragging ? '10px 10px 10px #00000055' : 'unset')};
+  border-width: ${props => (props.isDragging ? '3px' : '1px')};
 `;
 
 export default class Task extends React.Component {
@@ -40,10 +41,13 @@ export default class Task extends React.Component {
 
             <div className='task-footer'>
               <Users className='user-list'
-                     users={this.props.task.assigned}
-                     allUsers={this.props.allUsers}
+                     assigned={this.props.task.assigned}
+                     users={this.props.users}
               />
-
+              <i className='edit-button bi bi-pencil-square'
+                 title='Edit task'
+                 onClick={() =>this.props.openEditModal(this.props.task)}
+              />
             </div>
           </Container>
         )}

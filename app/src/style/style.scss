@@ -1,5 +1,5 @@
 body {
-    background-color: #f9f9f9;
+    background-color: #9f853a;
 }
 
 .main-board {
@@ -11,7 +11,7 @@ body {
         flex-direction: column;
         border: 1px solid lightgray;
         border-radius: 15px 15px 0 0;
-        background-color: #fff;
+        background-color: #f0f0f0;
 
         .column-title {
             margin:0;
@@ -29,17 +29,18 @@ body {
             flex-grow: 1;
             flex-direction: column;
             .task {
-                border: 1px solid lightgray;
+                border-style: solid;
                 border-radius: 10px;
                 padding:10px;
                 margin-bottom:10px;
                 transition: background-color 0.2s ease;
                 display: flex;
                 flex-wrap: wrap;
+                position: relative;
 
                 &.importance-0 {
-                    border-color: #00469d;
-                    background-color: #d3e6ff;
+                    border-color: #1a8152;
+                    background-color: #d7f7e8;
                 }
                 &.importance-1 {
                     border-color: #c67d00;
@@ -63,11 +64,14 @@ body {
                     width: 100%;
                     h3 {
                         font-size: 20px;
-                        float: left;
+                        margin-right:24px;
                     }
                     i {
-                        float:right;
                         display: none;
+                        position: absolute;
+                        top: 0;
+                        right: 5px;
+                        font-size:24px;
                     }
                     &:hover {
                         i {
@@ -80,9 +84,57 @@ body {
                     height: 0;
                 }
                 .task-description {
+                    text-align: center;
+                }
 
+                .edit-button {
+                    display: none;
+                    position: absolute;
+                    bottom: 5px;
+                    right: 10px;
+                    cursor: pointer;
+                    font-size: 20px;
+                }
+                &:hover {
+                    .edit-button {
+                        display: block;
+                    }
                 }
             }
+        }
+    }
+}
+
+.modal-dialog {
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-task-importance {
+        ul {
+            -webkit-column-count: 3;
+            -moz-column-count: 3;
+            -o-column-count: 3;
+            column-count: 3;
+            list-style-type: none;
+        }
+    }
+
+    .form-task-description {
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+    }
+
+    .form-task-assigned {
+        ul {
+            -webkit-column-count: 2;
+            -moz-column-count: 2;
+            -o-column-count: 2;
+            column-count: 2;
+            list-style-type: none;
         }
     }
 }

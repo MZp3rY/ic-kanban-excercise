@@ -7,7 +7,8 @@ const Title = styled.h3`
   padding: 10px;
 `;
 const TaskList = styled.div`
-  background-color: ${props => (props.isDraggingOver ? '#ebfff8' : 'white')};
+  background-color: ${props => (props.isDraggingOver ? 'white' : '#f0f0f0')};
+  box-shadow: ${props => (props.isDraggingOver ? '0 0 5px white' : 'none')};
 `;
 
 export default class Column extends React.Component {
@@ -28,7 +29,14 @@ export default class Column extends React.Component {
               ref={provided.innerRef}
               isDraggingOver={snapshot.isDraggingOver}
             >
-              {this.props.tasks.map((task,index) => <Task key={task.id} task={task} index={index} allUsers={this.props.allUsers} />)}
+              {this.props.tasks.map((task,index) =>
+                <Task
+                  key={task.id}
+                  task={task}
+                  index={index}
+                  users={this.props.users}
+                  openEditModal={(param) => this.props.openEditModal(param)}
+                />)}
               {provided.placeholder}
             </TaskList>
           )}
