@@ -84,12 +84,20 @@ body {
                     height: 0;
                 }
                 .task-description {
+                    margin-bottom: 10px;
                     text-align: center;
                 }
 
                 .task-footer {
-                    b {
-                        margin-left: 5px;
+                    .assigned-users {
+                        margin-right: 20px;
+                        i {
+                            float: left;
+                        }
+                        b {
+                            margin-left: 5px;
+                            float:left;
+                        }
                     }
                 }
 
@@ -124,6 +132,14 @@ body {
             -o-column-count: 3;
             column-count: 3;
             list-style-type: none;
+
+            .form-check-label {
+                display: block;
+                cursor:pointer;
+            }
+            .form-check-input {
+                cursor:pointer;
+            }
         }
     }
 

@@ -9,13 +9,20 @@ const App = () => {
 
   const [columns, updateColumns] = useState();
   const [users, updateUsers] = useState();
+
+  const getColumns = async () => {
+    updateColumns((await BoardAPI.getBoardColumns()).data);
+  };
+
+  const getUsers = async () => {
+    updateUsers((await UserAPI.getUsers()).data);
+  };
+
+  const saveEditedTask = async (taskId, taskData) => {
+    await BoardAPI.editTask(taskId, taskData);
+  }
+
   useEffect(() => {
-    const getColumns = async () => {
-      updateColumns((await BoardAPI.getBoardColumns()).data);
-    }
-    const getUsers = async () => {
-      updateUsers((await UserAPI.getUsers()).data);
-    }
     getColumns();
     getUsers();
   }, []);
@@ -26,6 +33,7 @@ const App = () => {
              element={<Board
                          boardColumns={columns}
                          users={users}
+                         saveEditedTask={saveEditedTask}
                        />}
       />
     </Routes>

@@ -25,7 +25,6 @@ export default class Board extends React.Component{
   componentDidUpdate = () => {
     //  prevents infinite calls
     if(!this.state.boardUpdated) {
-      //  upload state.users from props.users {key=user.id => value=user.name }
       let tasks = {};
       let columns = {};
       let columnOrder = [];
@@ -134,11 +133,25 @@ export default class Board extends React.Component{
 
   };
 
-  closeModal = () => this.setState({ modalIsOpen: false, editingParam: '' });
+  closeModal = () => this.setState({ modalIsOpen: false, taskToEdit: '' });
 
-  handleSave = (e,name) => {
-    console.log('Save: ' + name);
-    this.setState({ modalIsOpen: false, editingParam: '' });
+  handleSave = (e,editedTask) => {
+    this.props.saveEditedTask(
+      editedTask.id, {
+        name: editedTask.name,
+        assigned: editedTask.assigned,
+        importance: editedTask.importance,
+        description: editedTask.description,
+      }
+    );
+
+    this.setState({
+      tasks: {
+        ...this.state.tasks,
+        [editedTask.id]: editedTask,
+      },
+      modalIsOpen: false, taskToEdit: '',
+    });
   };
 
   render () {
