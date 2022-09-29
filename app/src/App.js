@@ -22,6 +22,10 @@ const App = () => {
     await BoardAPI.editTask(taskId, taskData);
   }
 
+  const deleteTask = async (taskId) => {
+    await BoardAPI.deleteTask(taskId);
+  }
+
   useEffect(() => {
     getColumns();
     getUsers();
@@ -34,6 +38,7 @@ const App = () => {
                          boardColumns={columns}
                          users={users}
                          saveEditedTask={saveEditedTask}
+                         deleteTask={deleteTask}
                        />}
       />
     </Routes>

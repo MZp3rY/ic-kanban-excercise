@@ -35,7 +35,8 @@ export default class Column extends React.Component {
                   task={task}
                   index={index}
                   users={this.props.users}
-                  openEditModal={(param) => this.props.openEditModal(param)}
+                  openEditModal={this.props.openEditModal}
+                  showConfirmDelete={this.props.showConfirmDelete}
                 />)}
               {provided.placeholder}
             </TaskList>

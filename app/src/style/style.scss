@@ -1,5 +1,6 @@
 body {
     background-color: #9f853a;
+    min-height: 101%;
 }
 
 .main-board {
@@ -31,7 +32,6 @@ body {
             .task {
                 border-style: solid;
                 border-radius: 10px;
-                padding:10px;
                 margin-bottom:10px;
                 transition: background-color 0.2s ease;
                 display: flex;
@@ -41,14 +41,36 @@ body {
                 &.importance-0 {
                     border-color: #1a8152;
                     background-color: #d7f7e8;
+                    .controll-icons {
+                        background-color: #d7f7e8;
+                        .edit-button,
+                        .delete-button {
+                            color: #1a8152;
+                        }
+                    }
                 }
                 &.importance-1 {
                     border-color: #c67d00;
                     background-color: #fbecd5;
+                    .controll-icons {
+                        background-color: #fbecd5;
+                        .edit-button,
+                        .delete-button {
+                            color: #c67d00;
+                        }
+                    }
                 }
                 &.importance-2 {
                     border-color: #c60101;
                     background-color: #ffdcdc;
+                    .controll-icons {
+                        background-color: #ffdcdc;
+
+                        .edit-button,
+                        .delete-button {
+                            color: #c60101;
+                        }
+                    }
                 }
 
                 .task-handle {
@@ -101,16 +123,25 @@ body {
                     }
                 }
 
-                .edit-button {
+                .edit-button,
+                .delete-button {
                     display: none;
                     position: absolute;
                     bottom: 5px;
-                    right: 10px;
+                    right: 5px;
                     cursor: pointer;
                     font-size: 20px;
+                    margin-left: 5px;
+                    &:hover {
+                        color: #000;
+                    }
+                }
+                .edit-button {
+                    right: 30px;
                 }
                 &:hover {
-                    .edit-button {
+                    .edit-button,
+                    .delete-button {
                         display: block;
                     }
                 }
@@ -132,14 +163,6 @@ body {
             -o-column-count: 3;
             column-count: 3;
             list-style-type: none;
-
-            .form-check-label {
-                display: block;
-                cursor:pointer;
-            }
-            .form-check-input {
-                cursor:pointer;
-            }
         }
     }
 
@@ -159,4 +182,13 @@ body {
             list-style-type: none;
         }
     }
+
+    .form-check-label {
+        display: block;
+        cursor:pointer;
+    }
+    .form-check-input {
+        cursor:pointer;
+    }
+
 }

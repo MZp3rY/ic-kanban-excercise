@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Column from '../../components/Column'
 import PopupModal from "../../components/PopupModal";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 const Container = styled.div`
   display: flex;
@@ -19,6 +20,8 @@ export default class Board extends React.Component{
       boardUpdated: false,
       modalIsOpen: false,
       taskToEdit: '',
+      showConfirmDelete: false,
+      taskToDelete: '',
     };
   }
 
@@ -154,6 +157,46 @@ export default class Board extends React.Component{
     });
   };
 
+  setShowConfirmDelete = (taskId) => {
+    this.setState({
+      taskToDelete: taskId,
+      showConfirmationDelete: true,
+    })
+  }
+
+  closeConfirmationDelete = () => this.setState({ showConfirmationDelete: false, taskToDelete: '' });
+
+  deleteTask = (taskId) => {
+    this.props.deleteTask(taskId);
+
+    //  remove from tasks
+    let newTasks = this.state.tasks;
+    delete newTasks[taskId];
+
+    //  remove from columns
+    let newColumns = {};
+    for(const key of Object.keys(this.state.columns)) {
+      // newColumns[key].tasksIds = newColumns[key].tasksIds.filter((v) => { return v !== taskId; } );
+        //  why doesn't work?
+      let taskIds = [];
+      for(const id of this.state.columns[key].taskIds) {
+        if(id !== taskId)
+          taskIds.push(id);
+      }
+      newColumns[key] = {
+        ...this.state.columns[key],
+        taskIds,
+      }
+    }
+
+    this.setState({
+      tasks: newTasks,
+      columns: newColumns,
+      showConfirmationDelete: false,
+      taskToDelete: '',
+    });
+  };
+
   render () {
 
     if (typeof this.props.boardColumns === 'undefined' || typeof this.props.users === 'undefined')
@@ -163,12 +206,19 @@ export default class Board extends React.Component{
       <>
         { this.state.modalIsOpen ?
           <PopupModal
-            handleClose={() => this.closeModal()}
-            handleSave={(e,n) => this.handleSave(e,n)}
+            handleClose={this.closeModal}
+            handleSave={this.handleSave}
             task={this.state.taskToEdit}
             allUsers={this.state.users}
             users={this.props.users}
             /> : null }
+
+        <ConfirmationModal
+          confirmedDelete={this.deleteTask}
+          show={this.state.showConfirmationDelete}
+          handleClose={this.closeConfirmationDelete}
+          taskId={this.state.taskToDelete}
+        />
 
         <div className="main-board">
           <DragDropContext
@@ -184,7 +234,8 @@ export default class Board extends React.Component{
                           column={column}
                           tasks={tasks}
                           users={this.props.users}
-                          openEditModal={(param) => this.openModal(param)}
+                          openEditModal={this.openModal}
+                          showConfirmDelete={this.setShowConfirmDelete}
                 />;
               })}
             </Container>
@@ -193,4 +244,4 @@ export default class Board extends React.Component{
       </>
     );
   }
-}
+};
