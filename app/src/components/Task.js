@@ -5,9 +5,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Draggable } from "react-beautiful-dnd";
 
 const Container = styled.div`
-  box-shadow: ${props => (props.isDragging ? '10px 10px 10px #00000055' : 'unset')};
-  border-width: ${props => (props.isDragging ? '3px' : '1px')};
-  padding: ${props => (props.isDragging ? '8px' : '10px')};
+  box-shadow: ${props => (props.isDragging ? '5px 5px 15px #00000055' : 'unset')};
 `;
 
 export default class Task extends React.Component {
@@ -50,7 +48,7 @@ export default class Task extends React.Component {
                      assigned={this.props.task.assigned}
                      users={this.props.users}
               />
-              <div className="controll-icons">
+              <div className="control-icons">
                 <OverlayTrigger
                   placement="bottom"
                   overlay={<Tooltip id="button-tooltip-2">Delete task</Tooltip>}
